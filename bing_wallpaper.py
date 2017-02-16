@@ -19,6 +19,10 @@ from random import choice
 
 now = datetime.now()
 
+def _GetchWindows():
+    # This reads only one character.
+    from msvcrt import getch
+    return getch()
 
 def setWallPaperFromBmp(bmp):
     key = win32api.RegOpenKeyEx(win32con.HKEY_CURRENT_USER, 'Control Panel\\Desktop', 0, win32con.KEY_SET_VALUE)
@@ -73,6 +77,7 @@ def main():
     dir_name = path.expanduser('~') + '\\Bing_Pic_of_the_Day\\'  # Wallpaper directory name
 
     try:
+        print("Checking if your Internet is working.. ;)")
         image_data = json.loads(urlopen(url).read().decode('utf-8'))
 
         image_url = 'http://www.bing.com' + image_data['images'][0]['url']
@@ -85,6 +90,7 @@ def main():
         # image_desc = image_data['images'][0]['copyright']
 
         if not path.isdir(dir_name):
+            print("Creating a directory at this location:\n"+dir_name+"where all wallpapers will be downloaded in future.. :)")
             system('mkdir ' + dir_name)
 
         file_path = dir_name + image_name
@@ -92,6 +98,7 @@ def main():
         try:
             # Trying for a better quality image ;)
             if path.isfile(file_path):
+                print("No new wallpaper yet.. ;)")
                 setWallPaper(file_path)
             else:
                 print("Downloading..")
@@ -99,6 +106,7 @@ def main():
                 setWallPaper(file_path)
         except:
             if path.isfile(file_path):
+                print("No new wallpaper yet.. ;)")
                 setWallPaper(file_path)
             else:
                 print("Downloading...")
@@ -112,8 +120,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
-    try:
-        input("\nPress any key to exit.")
-    except:
-        pass
+    main()    
+    print("\nPress any key to exit.")
+    _GetchWindows()
