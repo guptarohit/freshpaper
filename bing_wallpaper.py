@@ -90,7 +90,7 @@ def main():
         # image_desc = image_data['images'][0]['copyright']
 
         if not path.isdir(dir_name):
-            print("Creating a directory at this location:\n"+dir_name+"where all wallpapers will be downloaded in future.. :)")
+            print("Creating a directory at this location:\n"+dir_name+"\nhere all wallpapers will be downloaded in future.. :)")
             system('mkdir ' + dir_name)
 
         file_path = dir_name + image_name
