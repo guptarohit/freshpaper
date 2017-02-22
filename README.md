@@ -12,16 +12,16 @@ This program automatically sets [Bing](http://www.bing.com/)'s Photo-of-the-Day 
 git clone https://github.com/guptarohit/bing-wallpaper.git && cd bing-wallpaper
 ```
 
-or if you have [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) then,
+&nbsp;&nbsp;&nbsp;or if you have [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) then,
 ```
 wget https://raw.githubusercontent.com/guptarohit/bing-wallpaper/master/bing_wallpaper.py
 ```
-then finally,
+&nbsp;&nbsp;&nbsp;then finally,
 ```
 python bing_wallpaper.py
 ```
 
-####OR
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**OR**
 
 #### Running from executable
 You can **download .exe it from here :point_right: [link](https://raw.githubusercontent.com/guptarohit/bing-wallpaper/master/bing_wallpaper.exe)** :boom:.
