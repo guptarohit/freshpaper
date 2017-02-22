@@ -25,6 +25,6 @@ python bing_wallpaper.py
 
 #### Running from executable
 
-&nbsp;&nbsp;&nbsp;&nbsp;You can **download .exe it from here :point_right: [link](https://raw.githubusercontent.com/guptarohit/bing-wallpaper/master/bing_wallpaper.exe)** :boom:.
+&nbsp;&nbsp;&nbsp;&nbsp;You can **download .exe it from here :point_right: [link](https://raw.githubusercontent.com/guptarohit/bing-wallpaper/master/bing_wallpaper.exe)**.
 
 &nbsp;&nbsp;&nbsp;&nbsp;Then simply run it when you want to change wallpaper. :v:
