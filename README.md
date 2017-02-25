@@ -4,7 +4,7 @@ This program automatically sets [Bing](http://www.bing.com/)'s Photo-of-the-Day 
 
 ## Installaion & Use
 
-### __For Windows__
+### For Windows
 
 #### Running from source
 
