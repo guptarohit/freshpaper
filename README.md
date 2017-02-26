@@ -6,7 +6,7 @@ This program automatically sets [Bing](http://www.bing.com/)'s Photo-of-the-Day 
 
 ### For Windows
 
-#### Running from source
+#### From source
 
 ```
 git clone https://github.com/guptarohit/bing-wallpaper.git && cd bing-wallpaper
@@ -23,7 +23,7 @@ python bing_wallpaper.py
 
 #### _OR_
 
-#### Running from executable
+#### From executable
 
 &nbsp;&nbsp;&nbsp;&nbsp;You can **download .exe it from here :point_right: [link](https://raw.githubusercontent.com/guptarohit/bing-wallpaper/master/bing_wallpaper.exe)**.
 
