@@ -1,4 +1,6 @@
 # About
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fguptarohit%2Fbing-wallpaper.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fguptarohit%2Fbing-wallpaper?ref=badge_shield)
+
 This program automatically sets [Bing](http://www.bing.com/)'s Photo-of-the-Day as your (Windows) Desktop's wallpaper.
 
 
@@ -28,3 +30,7 @@ python bing_wallpaper.py
 &nbsp;&nbsp;&nbsp;&nbsp;You can **download .exe it from here :point_right: [link](https://raw.githubusercontent.com/guptarohit/bing-wallpaper/master/bing_wallpaper.exe)**.
 
 &nbsp;&nbsp;&nbsp;&nbsp;Then simply run it when you want to change wallpaper. :v:
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fguptarohit%2Fbing-wallpaper.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fguptarohit%2Fbing-wallpaper?ref=badge_large)
