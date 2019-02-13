@@ -5,10 +5,16 @@ import json
 import logging
 from random import choice
 from datetime import datetime
-from urllib.request import urlopen, urlretrieve, HTTPError, URLError
 from subprocess import check_call, CalledProcessError
-
 from PIL import Image
+
+try:
+    # for python3
+    from urllib.request import urlopen, urlretrieve, HTTPError, URLError
+except ImportError:
+    # for python2
+    from urllib import urlretrieve
+    from urllib2 import urlopen, HTTPError, URLError
 
 if sys.platform.startswith("win32"):
     import win32api
@@ -137,8 +143,8 @@ def download_image(download_dir, image_extension="jpg"):
         image_url = "http://www.bing.com" + image_data["images"][0]["url"]
 
         image_name = image_url[
-                     re.search("rb/", image_url).end(): re.search("_EN", image_url).start()
-                     ]
+            re.search("rb/", image_url).end() : re.search("_EN", image_url).start()
+        ]
 
         image_url_hd = "http://www.bing.com/hpwp/" + image_data["images"][0]["hsh"]
         date_time = datetime.now().strftime("%d_%m_%Y")
