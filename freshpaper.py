@@ -142,9 +142,7 @@ def download_image(download_dir, image_extension="jpg"):
 
         image_url = "http://www.bing.com" + image_data["images"][0]["url"]
 
-        image_name = image_url[
-            re.search("rb/", image_url).end() : re.search("_EN", image_url).start()
-        ]
+        image_name = re.search(r"OHR\.(.*?)_", image_url).group(1)
 
         image_url_hd = "http://www.bing.com/hpwp/" + image_data["images"][0]["hsh"]
         date_time = datetime.now().strftime("%d_%m_%Y")
