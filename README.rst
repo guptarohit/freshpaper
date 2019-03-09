@@ -33,6 +33,12 @@ Installation
 
     $ pip install freshpaper
 
+Update to latest release:
+
+::
+
+    $ pip install -U freshpaper
+
 
 Usage
 ------
