@@ -48,7 +48,18 @@ To update the wallpaper simply run:
 ::
 
     $ freshpaper
+    
+To change the source for downloading the wallpaper simply run:
 
+::
+
+    $ freshpaper --source TEXT
+    
+To view a list of available sources for use with the source option, simply run
+
+::
+
+    $ freshpaper sources
 
 Contributing
 ------------
