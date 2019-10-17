@@ -53,13 +53,18 @@ To change the source for downloading the wallpaper simply run:
 
 ::
 
-    $ freshpaper --source TEXT
+    $ freshpaper --source <source_name>
     
-To view a list of available sources for use with the source option, simply run
+Help command of cli utility:
 
 ::
 
-    $ freshpaper sources
+    $ freshpaper --help
+    Usage: freshpaper [OPTIONS] COMMAND [ARGS]...
+
+    Options:
+      --source [bing]  Source for setting the wallpaper.
+      --help           Show this message and exit.
 
 Contributing
 ------------
