@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 pillow = "*"
+terminaltables = "*"
 
 [dev-packages]
 black = "*"

@@ -3,10 +3,12 @@ import re
 import sys
 import json
 import logging
+import click
 from random import choice
 from datetime import datetime
 from subprocess import check_call, CalledProcessError
 from PIL import Image
+from terminaltables import AsciiTable
 
 try:
     # for python3
@@ -126,7 +128,7 @@ def get_wallpaper_directory():
     return wall_dir
 
 
-def download_image(download_dir, image_extension="jpg"):
+def download_image_bing(download_dir, image_extension="jpg"):
     """
     Download & save the image
     :param download_dir: directory where to download the image
@@ -171,17 +173,40 @@ def download_image(download_dir, image_extension="jpg"):
         raise ConnectionError
 
 
-def main():
-    dir_name = get_wallpaper_directory()  # Wallpaper directory name
+freshpaperSources = {
+    "bing" : {
+        "download": download_image_bing,
+        "description": "Bing photo of the day"
+    },
+}
 
-    try:
-        image_path = download_image(dir_name)
-        set_wallpaper(image_path)
-    except ConnectionError:
-        image_path = get_saved_wallpaper(dir_name)
-        set_wallpaper(image_path)
-    except Exception as e:
-        log.error(e)
+
+@click.group(invoke_without_command=True)
+@click.pass_context
+@click.option('--source', default="bing", help="Source for setting the wallpaper.")
+def main(ctx, source):
+    if ctx.invoked_subcommand is None:
+        dir_name = get_wallpaper_directory()  # Wallpaper directory name
+
+        try:
+            download_image = freshpaperSources.get(source)['download']
+            image_path = download_image(dir_name)
+            set_wallpaper(image_path)
+        except ConnectionError:
+            image_path = get_saved_wallpaper(dir_name)
+            set_wallpaper(image_path)
+        except Exception as e:
+            log.error(e)
+
+
+@main.command(help="Show all available sources for setting the wallpaper")
+def sources():
+    table_data = [["Source", "Description"]]
+    for key in freshpaperSources:
+        item = freshpaperSources[key]
+        table_data.append([key, item["description"]])
+    table = AsciiTable(table_data)
+    click.echo(table.table)
 
 
 if __name__ == "__main__":
