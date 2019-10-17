@@ -58,7 +58,7 @@ Feel free to make a pull request! :octocat:
 If you found this useful, I'd appreciate your consideration in the below. ✨🍰
 
 .. image:: https://user-images.githubusercontent.com/7895001/52529389-e2da5280-2d16-11e9-924c-4fe3f309c780.png
-    :target: https://www.buymeacoff.ee/rohitgupta
+    :target: https://www.buymeacoffee.com/rohitgupta
     :alt: Buy Me A Coffee
 
 .. image:: https://user-images.githubusercontent.com/7895001/52529390-e8379d00-2d16-11e9-913b-4d09db90403f.png
