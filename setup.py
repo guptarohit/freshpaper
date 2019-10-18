@@ -15,7 +15,7 @@ AUTHOR = "Rohit Gupta"
 VERSION = "1.0.1"
 
 # Packages are required for this module
-REQUIRED = ["Pillow"]
+REQUIRED = ["click", "Pillow"]
 
 here = os.path.abspath(os.path.dirname(__file__))
 
