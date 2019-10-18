@@ -63,7 +63,7 @@ Help command of cli utility:
     Usage: freshpaper [OPTIONS] COMMAND [ARGS]...
 
     Options:
-      --source [bing]  Source for setting the wallpaper.
+      --source [bing|nasa]  Source for setting the wallpaper.
       --help           Show this message and exit.
 
 Contributing
