@@ -1,6 +1,7 @@
 import os
 import re
 import sys
+import click
 import json
 import logging
 from random import choice
@@ -126,7 +127,7 @@ def get_wallpaper_directory():
     return wall_dir
 
 
-def download_image(download_dir, image_extension="jpg"):
+def download_image_bing(download_dir, image_extension="jpg"):
     """
     Download & save the image
     :param download_dir: directory where to download the image
@@ -171,17 +172,32 @@ def download_image(download_dir, image_extension="jpg"):
         raise ConnectionError
 
 
-def main():
-    dir_name = get_wallpaper_directory()  # Wallpaper directory name
+freshpaperSources = {
+    "bing": {"download": download_image_bing, "description": "Bing photo of the day"}
+}
 
-    try:
-        image_path = download_image(dir_name)
-        set_wallpaper(image_path)
-    except ConnectionError:
-        image_path = get_saved_wallpaper(dir_name)
-        set_wallpaper(image_path)
-    except Exception as e:
-        log.error(e)
+
+@click.group(invoke_without_command=True)
+@click.pass_context
+@click.option(
+    "--source",
+    default="bing",
+    type=click.Choice(freshpaperSources.keys()),
+    help="Source for setting the wallpaper.",
+)
+def main(ctx, source):
+    if ctx.invoked_subcommand is None:
+        dir_name = get_wallpaper_directory()  # Wallpaper directory name
+
+        try:
+            download_image = freshpaperSources.get(source)["download"]
+            image_path = download_image(dir_name)
+            set_wallpaper(image_path)
+        except ConnectionError:
+            image_path = get_saved_wallpaper(dir_name)
+            set_wallpaper(image_path)
+        except Exception as e:
+            log.error(e)
 
 
 if __name__ == "__main__":

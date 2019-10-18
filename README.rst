@@ -48,7 +48,23 @@ To update the wallpaper simply run:
 ::
 
     $ freshpaper
+    
+To change the source for downloading the wallpaper simply run:
 
+::
+
+    $ freshpaper --source <source_name>
+    
+Help command of cli utility:
+
+::
+
+    $ freshpaper --help
+    Usage: freshpaper [OPTIONS] COMMAND [ARGS]...
+
+    Options:
+      --source [bing]  Source for setting the wallpaper.
+      --help           Show this message and exit.
 
 Contributing
 ------------
