@@ -2,7 +2,6 @@ import logging
 import sys
 
 import click
-from pip._vendor.requests import ConnectionError
 
 from Constants import BING_IMAGE_DESCRIPTION, NASA_IMAGE_DESCRIPTION, IMAGE_SOURCES
 from src.DownloadUtils import DownloadUtils
