@@ -26,7 +26,7 @@ freshpaper
 freshpaper automatically sets `Bing <https://www.bing.com/>`_ photo of the day or `NASA-APOD <https://apod.nasa.gov/apod/astropix.html/>`_ as your desktop's wallpaper. Available for Windows, macOS & Linux.
 
 
-Installation
+Installation Guide
 ------------
 
 ::
