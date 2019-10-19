@@ -2,13 +2,12 @@ import os
 import re
 import sys
 import click
-import json
 import logging
 from random import choice
-from datetime import datetime
 from subprocess import check_call, CalledProcessError
 from PIL import Image
-
+import constants as CT
+from utils import download_image
 try:
     # for python3
     from urllib.request import urlopen, urlretrieve, HTTPError, URLError
@@ -40,7 +39,7 @@ def set_wallpaper(image_path):
         )
     )
 
-    if sys.platform.startswith("win32"):
+    if sys.platform.startswith(CT.WINDOWS_SIGNATURE):
 
         bmp_image = Image.open(image_path)
         bmp_img_path = os.path.splitext(image_path)[0] + ".bmp"
@@ -54,7 +53,7 @@ def set_wallpaper(image_path):
         win32api.RegSetValueEx(key, "WallpaperStyle", 0, win32con.REG_SZ, "0")
         win32api.RegSetValueEx(key, "TileWallpaper", 0, win32con.REG_SZ, "0")
         win32gui.SystemParametersInfo(
-            win32con.SPI_SETDESKWALLPAPER, bmp_img_path, 1 + 2
+            win32con.SPI_SETDESKWALLPAPER, bmp_img_path, 3
         )
         os.remove(bmp_img_path)
     elif sys.platform.startswith("darwin"):
@@ -107,16 +106,15 @@ def get_saved_wallpaper(wall_dir):
 def get_wallpaper_directory():
     """ check if `default` wallpaper download directory exists or not, create if doesn't exist """
     pictures_dir = ""
-    wall_dir_name = "freshpaper"
-    os.path.join(os.sep, os.path.expanduser("~"), "a", "freshpaper")
-    if sys.platform.startswith("win32"):
-        pictures_dir = "My Pictures"
+    os.path.join(os.sep, os.path.expanduser("~"), "a", CT.IMAGE_FOLDER)
+    if sys.platform.startswith(CT.WINDOWS_SIGNATURE):
+        pictures_dir = CT.IMAGE_WINDOWS
     elif sys.platform.startswith("darwin"):
-        pictures_dir = "Pictures"
+        pictures_dir = CT.IMAGE_LINUX
     elif sys.platform.startswith("linux"):
-        pictures_dir = "Pictures"
+        pictures_dir = CT.IMAGE_LINUX
     wall_dir = os.path.join(
-        os.sep, os.path.expanduser("~"), pictures_dir, wall_dir_name
+        os.sep, os.path.expanduser("~"), pictures_dir, CT.IMAGE_FOLDER
     )
 
     if not os.path.isdir(wall_dir):
@@ -127,7 +125,7 @@ def get_wallpaper_directory():
     return wall_dir
 
 
-def download_image_bing(download_dir, image_extension="jpg"):
+def download_image_bing(download_dir, image_extension = CT.DEFAULT_IMG_EXTENSION):
     """
     Download & save the image
     :param download_dir: directory where to download the image
@@ -136,43 +134,10 @@ def download_image_bing(download_dir, image_extension="jpg"):
     """
     # mkt(s) HIN, EN-IN
 
-    url = "http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=EN-IN"
-
-    try:
-        image_data = json.loads(urlopen(url).read().decode("utf-8"))
-
-        image_url = "http://www.bing.com" + image_data["images"][0]["url"]
-
-        image_name = re.search(r"OHR\.(.*?)_", image_url).group(1)
-
-        image_url_hd = "http://www.bing.com/hpwp/" + image_data["images"][0]["hsh"]
-        date_time = datetime.now().strftime("%d_%m_%Y")
-        image_file_name = "{image_name}_{date_stamp}.{extention}".format(
-            image_name=image_name, date_stamp=date_time, extention=image_extension
-        )
-
-        image_path = os.path.join(os.sep, download_dir, image_file_name)
-        log.debug("download_dir: {}".format(download_dir))
-        log.debug("image_file_name: {}".format(image_file_name))
-        log.debug("image_path: {}".format(image_path))
-
-        if os.path.isfile(image_path):
-            log.info("No new wallpaper yet..updating to latest one.\n")
-            return image_path
-
-        try:
-            log.info("Downloading..")
-            urlretrieve(image_url_hd, filename=image_path)
-        except HTTPError:
-            log.info("Downloading...")
-            urlretrieve(image_url, filename=image_path)
-        return image_path
-    except URLError:
-        log.error("Something went wrong..\nMaybe Internet is not working...")
-        raise ConnectionError
+    download_image(CT.BING, download_dir, image_extension)
 
 
-def download_image_nasa(download_dir, image_extension="jpg"):
+def download_image_nasa(download_dir, image_extension = CT.DEFAULT_IMG_EXTENSION):
     """
     Download & save the image
     :param download_dir: directory where to download the image
@@ -180,40 +145,7 @@ def download_image_nasa(download_dir, image_extension="jpg"):
     :return: downloaded image path
     """
 
-    url = "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY"
-
-    try:
-        image_data = json.loads(urlopen(url).read().decode("utf-8"))
-
-        image_url = image_data.get("url")
-
-        image_name = image_data.get("title").split(" ")[0]
-
-        image_url_hd = image_data.get("hdurl")
-        date_time = datetime.now().strftime("%d_%m_%Y")
-        image_file_name = "{image_name}_{date_stamp}.{extention}".format(
-            image_name=image_name, date_stamp=date_time, extention=image_extension
-        )
-
-        image_path = os.path.join(os.sep, download_dir, image_file_name)
-        log.debug("download_dir: {}".format(download_dir))
-        log.debug("image_file_name: {}".format(image_file_name))
-        log.debug("image_path: {}".format(image_path))
-
-        if os.path.isfile(image_path):
-            log.info("No new wallpaper yet..updating to latest one.\n")
-            return image_path
-
-        try:
-            log.info("Downloading..")
-            urlretrieve(image_url_hd, filename=image_path)
-        except HTTPError:
-            log.info("Downloading...")
-            urlretrieve(image_url, filename=image_path)
-        return image_path
-    except URLError:
-        log.error("Something went wrong..\nMaybe Internet is not working...")
-        raise ConnectionError
+    download_image(CT.NASA, download_dir, image_extension)
 
 
 freshpaperSources = {
