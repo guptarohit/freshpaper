@@ -28,7 +28,7 @@ log = logging.getLogger(__name__)
 @click.pass_context
 @click.option(
     "--source",
-    default="nasa",
+    default="bing",
     type=click.Choice(IMAGE_SOURCES),
     help="Source for setting the wallpaper.",
 )
