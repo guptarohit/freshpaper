@@ -24,7 +24,7 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
 
 
-class wallpaperUtils:
+class WallpaperUtils:
     def __init__(self):
         pass
 
