@@ -8,8 +8,10 @@ from random import choice
 from datetime import datetime
 from subprocess import check_call, CalledProcessError
 from PIL import Image
+from pip._vendor.requests import ConnectionError
 
-from Constants import NASA_IMAGE_URL, BING_IMAGE_URL
+from constants import NASA_IMAGE_URL, BING_IMAGE_URL, BING_IMAGE_DESCRIPTION, NASA_IMAGE_DESCRIPTION
+from src.wallpaperUtils import wallpaperUtils
 
 try:
     # for python3
@@ -27,81 +29,6 @@ if sys.platform.startswith("win32"):
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 log = logging.getLogger(__name__)
-
-
-def set_wallpaper(image_path):
-    """ Given a path to an image, set it as the wallpaper """
-    if not os.path.exists(image_path):
-        log.error("Image does not exist.")
-        sys.exit(1)
-
-    log.info("Updating wallpaper..")
-    log.info(
-        "Name of wallpaper: {}".format(
-            re.sub("([a-z])([A-Z])", r"\1 \2", image_path.split("/")[-1].split("_")[0])
-        )
-    )
-
-    setWallpaperForWindows(image_path)
-    setWallpaperForMacOS(image_path)
-    setWallpaperForLinux(image_path)
-
-    log.info("Wallpaper successfully updated. :)")
-
-
-def setWallpaperForLinux(image_path):
-    if sys.platform.startswith("linux"):
-        check_call(
-            [
-                "gsettings",
-                "set",
-                "org.gnome.desktop.background",
-                "picture-uri",
-                "file://{}".format(image_path),
-            ]
-        )
-
-
-def setWallpaperForMacOS(image_path):
-    if sys.platform.startswith("darwin"):
-        try:
-            command = """
-                osascript -e 'tell application "System Events"
-                    set desktopCount to count of desktops
-                    repeat with desktopNumber from 1 to desktopCount
-                        tell desktop desktopNumber
-                            set picture to "{image_path}"
-                        end tell
-                    end repeat
-                end tell'
-                """.format(
-                image_path=image_path
-            )
-
-            check_call([command], shell=True)
-        except CalledProcessError or FileNotFoundError:
-            log.error("Setting wallpaper failed.")
-            sys.exit(1)
-
-
-def setWallpaperForWindows(image_path):
-    if sys.platform.startswith("win32"):
-        bmp_image = Image.open(image_path)
-        bmp_img_path = os.path.splitext(image_path)[0] + ".bmp"
-        bmp_image.save(bmp_img_path, "BMP")
-        key = win32api.RegOpenKeyEx(
-            win32con.HKEY_CURRENT_USER,
-            "Control Panel\\Desktop",
-            0,
-            win32con.KEY_SET_VALUE,
-        )
-        win32api.RegSetValueEx(key, "WallpaperStyle", 0, win32con.REG_SZ, "0")
-        win32api.RegSetValueEx(key, "TileWallpaper", 0, win32con.REG_SZ, "0")
-        win32gui.SystemParametersInfo(
-            win32con.SPI_SETDESKWALLPAPER, bmp_img_path, 1 + 2
-        )
-        os.remove(bmp_img_path)
-
 
 def get_saved_wallpaper(wall_dir):
     """ returns random saved wallpaper's path """
@@ -227,8 +154,8 @@ def download_image_nasa(download_dir, image_extension="jpg"):
 
 
 freshpaperSources = {
-    "bing": {"download": download_image_bing, "description": "Bing photo of the day"},
-    "nasa": {"download": download_image_nasa, "description": "NASA photo of the day"},
+    "bing": {"download": download_image_bing, "description": BING_IMAGE_DESCRIPTION},
+    "nasa": {"download": download_image_nasa, "description": NASA_IMAGE_DESCRIPTION},
 }
 
 
@@ -240,17 +167,18 @@ freshpaperSources = {
     type=click.Choice(freshpaperSources.keys()),
     help="Source for setting the wallpaper.",
 )
-def main(ctx, source):
-    if ctx.invoked_subcommand is None:
-        dir_name = get_wallpaper_directory()  # Wallpaper directory name
-
+def main(context, source):
+    if context.invoked_subcommand is None:
+        directory_name = get_wallpaper_directory()  # Wallpaper directory name
+        wallpaper = wallpaperUtils()
         try:
             download_image = freshpaperSources.get(source)["download"]
-            image_path = download_image(dir_name)
-            set_wallpaper(image_path)
+            image_path = download_image(directory_name)
+
+            wallpaper.set_wallpaper(image_path)
         except ConnectionError:
-            image_path = get_saved_wallpaper(dir_name)
-            set_wallpaper(image_path)
+            image_path = get_saved_wallpaper(directory_name)
+            wallpaper.set_wallpaper(image_path)
         except Exception as e:
             log.error(e)
 
