@@ -9,6 +9,8 @@ from datetime import datetime
 from subprocess import check_call, CalledProcessError
 from PIL import Image
 
+from Constants import NASA_IMAGE_URL, BING_IMAGE_URL
+
 try:
     # for python3
     from urllib.request import urlopen, urlretrieve, HTTPError, URLError
@@ -40,24 +42,28 @@ def set_wallpaper(image_path):
         )
     )
 
-    if sys.platform.startswith("win32"):
+    setWallpaperForWindows(image_path)
+    setWallpaperForMacOS(image_path)
+    setWallpaperForLinux(image_path)
 
-        bmp_image = Image.open(image_path)
-        bmp_img_path = os.path.splitext(image_path)[0] + ".bmp"
-        bmp_image.save(bmp_img_path, "BMP")
-        key = win32api.RegOpenKeyEx(
-            win32con.HKEY_CURRENT_USER,
-            "Control Panel\\Desktop",
-            0,
-            win32con.KEY_SET_VALUE,
+    log.info("Wallpaper successfully updated. :)")
+
+
+def setWallpaperForLinux(image_path):
+    if sys.platform.startswith("linux"):
+        check_call(
+            [
+                "gsettings",
+                "set",
+                "org.gnome.desktop.background",
+                "picture-uri",
+                "file://{}".format(image_path),
+            ]
         )
-        win32api.RegSetValueEx(key, "WallpaperStyle", 0, win32con.REG_SZ, "0")
-        win32api.RegSetValueEx(key, "TileWallpaper", 0, win32con.REG_SZ, "0")
-        win32gui.SystemParametersInfo(
-            win32con.SPI_SETDESKWALLPAPER, bmp_img_path, 1 + 2
-        )
-        os.remove(bmp_img_path)
-    elif sys.platform.startswith("darwin"):
+
+
+def setWallpaperForMacOS(image_path):
+    if sys.platform.startswith("darwin"):
         try:
             command = """
                 osascript -e 'tell application "System Events"
@@ -76,18 +82,25 @@ def set_wallpaper(image_path):
         except CalledProcessError or FileNotFoundError:
             log.error("Setting wallpaper failed.")
             sys.exit(1)
-    elif sys.platform.startswith("linux"):
-        check_call(
-            [
-                "gsettings",
-                "set",
-                "org.gnome.desktop.background",
-                "picture-uri",
-                "file://{}".format(image_path),
-            ]
-        )
 
-    log.info("Wallpaper successfully updated. :)")
+
+def setWallpaperForWindows(image_path):
+    if sys.platform.startswith("win32"):
+        bmp_image = Image.open(image_path)
+        bmp_img_path = os.path.splitext(image_path)[0] + ".bmp"
+        bmp_image.save(bmp_img_path, "BMP")
+        key = win32api.RegOpenKeyEx(
+            win32con.HKEY_CURRENT_USER,
+            "Control Panel\\Desktop",
+            0,
+            win32con.KEY_SET_VALUE,
+        )
+        win32api.RegSetValueEx(key, "WallpaperStyle", 0, win32con.REG_SZ, "0")
+        win32api.RegSetValueEx(key, "TileWallpaper", 0, win32con.REG_SZ, "0")
+        win32gui.SystemParametersInfo(
+            win32con.SPI_SETDESKWALLPAPER, bmp_img_path, 1 + 2
+        )
+        os.remove(bmp_img_path)
 
 
 def get_saved_wallpaper(wall_dir):
@@ -136,10 +149,9 @@ def download_image_bing(download_dir, image_extension="jpg"):
     """
     # mkt(s) HIN, EN-IN
 
-    url = "http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=EN-IN"
 
     try:
-        image_data = json.loads(urlopen(url).read().decode("utf-8"))
+        image_data = json.loads(urlopen(BING_IMAGE_URL).read().decode("utf-8"))
 
         image_url = "http://www.bing.com" + image_data["images"][0]["url"]
 
@@ -180,10 +192,8 @@ def download_image_nasa(download_dir, image_extension="jpg"):
     :return: downloaded image path
     """
 
-    url = "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY"
-
     try:
-        image_data = json.loads(urlopen(url).read().decode("utf-8"))
+        image_data = json.loads(urlopen(NASA_IMAGE_URL).read().decode("utf-8"))
 
         image_url = image_data.get("url")
 
