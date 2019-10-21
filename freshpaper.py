@@ -171,6 +171,7 @@ def download_image_bing(download_dir, image_extension="jpg"):
         log.error("Something went wrong..\nMaybe Internet is not working...")
         raise ConnectionError
 
+
 def download_image_nasa(download_dir, image_extension="jpg"):
     """
     Download & save the image
@@ -178,18 +179,17 @@ def download_image_nasa(download_dir, image_extension="jpg"):
     :param image_extension: directory where to download the image
     :return: downloaded image path
     """
-    # mkt(s) HIN, EN-IN
 
     url = "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY"
 
     try:
         image_data = json.loads(urlopen(url).read().decode("utf-8"))
 
-        image_url = image_data.get('url')
+        image_url = image_data.get("url")
 
-        image_name = image_data.get('title').split(' ')[0]
+        image_name = image_data.get("title").split(" ")[0]
 
-        image_url_hd = image_data.get('hdurl')
+        image_url_hd = image_data.get("hdurl")
         date_time = datetime.now().strftime("%d_%m_%Y")
         image_file_name = "{image_name}_{date_stamp}.{extention}".format(
             image_name=image_name, date_stamp=date_time, extention=image_extension
@@ -215,6 +215,7 @@ def download_image_nasa(download_dir, image_extension="jpg"):
         log.error("Something went wrong..\nMaybe Internet is not working...")
         raise ConnectionError
 
+<<<<<<< HEAD
 def download_image_unsplash_daily(download_dir, image_extension="jpg"):
     """
     Download & save the image
@@ -288,6 +289,8 @@ def download_image_unsplash_random(download_dir, image_extension="jpg"):
     except URLError:
         log.error("Something went wrong..\nMaybe Internet is not working...")
         raise ConnectionError
+=======
+>>>>>>> 480bd71fd208816646cb97a24ad83dadcfec6815
 
 freshpaperSources = {
     "bing": {"download": download_image_bing, "description": "Bing photo of the day"},
