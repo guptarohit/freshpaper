@@ -215,7 +215,6 @@ def download_image_nasa(download_dir, image_extension="jpg"):
         log.error("Something went wrong..\nMaybe Internet is not working...")
         raise ConnectionError
 
-<<<<<<< HEAD
 def download_image_unsplash_daily(download_dir, image_extension="jpg"):
     """
     Download & save the image
@@ -289,8 +288,6 @@ def download_image_unsplash_random(download_dir, image_extension="jpg"):
     except URLError:
         log.error("Something went wrong..\nMaybe Internet is not working...")
         raise ConnectionError
-=======
->>>>>>> 480bd71fd208816646cb97a24ad83dadcfec6815
 
 freshpaperSources = {
     "bing": {"download": download_image_bing, "description": "Bing photo of the day"},
