@@ -15,10 +15,9 @@ freshpaperSources = image_getter.get_freshpaper_sources()
     type=click.Choice(freshpaperSources.keys()),
     help="Source for setting the wallpaper.",
 )
-def main(ctx, source):
+def main(ctx, source) -> None:
     if ctx.invoked_subcommand is None:
         dir_name = image_getter.get_wallpaper_directory()  # Wallpaper directory name
-
         try:
             download_image = freshpaperSources.get(source)["download"]
             image_path = download_image(dir_name)

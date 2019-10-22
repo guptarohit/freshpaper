@@ -92,7 +92,7 @@ class ImageGetter:
 
         self.logger.info("Wallpaper successfully updated. :)")
 
-    def get_saved_wallpaper(self, wall_dir):
+    def get_saved_wallpaper(self, wall_dir: str):
         """ returns random saved wallpaper's path """
 
         files = os.listdir(wall_dir)
@@ -105,7 +105,7 @@ class ImageGetter:
             self.logger.error("There is no wallpaper available offline.")
             sys.exit(1)
 
-    def get_wallpaper_directory(self):
+    def get_wallpaper_directory(self) -> str:
         """ check if `default` wallpaper download directory exists or not, create if doesn't exist """
         pictures_dir = ""
         wall_dir_name = "freshpaper"
@@ -127,7 +127,7 @@ class ImageGetter:
 
         return wall_dir
 
-    def __get_bing_image(self, image_extension: str):
+    def __get_bing_image(self, image_extension: str) -> (str, str, str):
         """
         get bing image data
         :param image_extension:
@@ -147,7 +147,7 @@ class ImageGetter:
         )
         return image_file_name, image_url_hd, image_url
 
-    def __get_nasa_image(self, image_extension: str):
+    def __get_nasa_image(self, image_extension: str)-> (str, str, str):
         """
         get nasa image data
         :param image_extension:
@@ -166,7 +166,7 @@ class ImageGetter:
         )
         return image_file_name, image_url_hd, image_url
 
-    def download_image(self, download_dir, image_file_name, image_url_hd, image_url):
+    def download_image(self, download_dir: str, image_file_name: str, image_url_hd: str, image_url: str)-> str:
         """
         download image from website
         :param download_dir:
@@ -192,7 +192,7 @@ class ImageGetter:
             urlretrieve(image_url, filename=image_path)
         return image_path
 
-    def download_image_bing(self, download_dir, image_extension="jpg"):
+    def download_image_bing(self, download_dir: str, image_extension: str = "jpg")-> (str, ConnectionError):
         """
         Download & save the image
         :param download_dir: directory where to download the image
@@ -206,7 +206,7 @@ class ImageGetter:
             self.logger.error("Something went wrong..\nMaybe Internet is not working...")
             raise ConnectionError
 
-    def download_image_nasa(self, download_dir, image_extension="jpg"):
+    def download_image_nasa(self, download_dir: str, image_extension: str = "jpg") -> (str, ConnectionError):
         """
         Download & save the image
         :param download_dir: directory where to download the image
