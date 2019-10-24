@@ -63,7 +63,7 @@ Help command of cli utility:
     Usage: freshpaper [OPTIONS] COMMAND [ARGS]...
 
     Options:
-      --source [bing|nasa|unsplash_daily|unsplash_random]  Source for setting the wallpaper.
+      --source [bing|nasa|unsplash]  Source for setting the wallpaper.
       --help           Show this message and exit.
 
 Contributing

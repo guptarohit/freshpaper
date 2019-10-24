@@ -28,6 +28,8 @@ log = logging.getLogger(__name__)
 
 
 def set_wallpaper(image_path):
+    if image_path is None:
+        return
     """ Given a path to an image, set it as the wallpaper """
     if not os.path.exists(image_path):
         log.error("Image does not exist.")
@@ -184,7 +186,10 @@ def download_image_nasa(download_dir, image_extension="jpg"):
 
     try:
         image_data = json.loads(urlopen(url).read().decode("utf-8"))
-
+        if image_data.get('media_type') != 'image':
+            log.info("No NASA image of the day available. It can be a video.\n")
+            return None
+        log.info(image_data)
         image_url = image_data.get("url")
 
         image_name = image_data.get("title").split(" ")[0]
@@ -215,58 +220,20 @@ def download_image_nasa(download_dir, image_extension="jpg"):
         log.error("Something went wrong..\nMaybe Internet is not working...")
         raise ConnectionError
 
-def download_image_unsplash_daily(download_dir, image_extension="jpg"):
+def download_image_unsplash(download_dir, image_extension="jpg"):
     """
     Download & save the image
     :param download_dir: directory where to download the image
     :param image_extension: directory where to download the image
     :return: downloaded image path
     """
-    # mkt(s) HIN, EN-IN
-
-    url = "https://source.unsplash.com/daily"
-
-    try:
-        image_url = url
-
-        image_name = 'unsplash_daily'
-
-        date_time = datetime.now().strftime("%d_%m_%Y")
-        image_file_name = "{image_name}_{date_stamp}.{extention}".format(
-            image_name=image_name, date_stamp=date_time, extention=image_extension
-        )
-
-        image_path = os.path.join(os.sep, download_dir, image_file_name)
-        log.debug("download_dir: {}".format(download_dir))
-        log.debug("image_file_name: {}".format(image_file_name))
-        log.debug("image_path: {}".format(image_path))
-
-        if os.path.isfile(image_path):
-            log.info("No new wallpaper yet..updating to latest one.\n")
-            return image_path
-
-        log.info("Downloading...")
-        urlretrieve(image_url, filename=image_path)
-        return image_path
-    except URLError:
-        log.error("Something went wrong..\nMaybe Internet is not working...")
-        raise ConnectionError
-
-def download_image_unsplash_random(download_dir, image_extension="jpg"):
-    """
-    Download & save the image
-    :param download_dir: directory where to download the image
-    :param image_extension: directory where to download the image
-    :return: downloaded image path
-    """
-    # mkt(s) HIN, EN-IN
 
     url = "https://source.unsplash.com/random/1920x1080"
 
     try:
         image_url = url
 
-        image_name = 'unsplash_random'
+        image_name = 'unsplash'
 
         date_time = datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
         image_file_name = "{image_name}_{date_stamp}.{extention}".format(
@@ -292,8 +259,7 @@ def download_image_unsplash_random(download_dir, image_extension="jpg"):
 freshpaperSources = {
     "bing": {"download": download_image_bing, "description": "Bing photo of the day"},
     "nasa": {"download": download_image_nasa, "description": "NASA photo of the day"},
-    "unsplash_daily": {"download": download_image_unsplash_daily, "description": "Unsplash photo of the day"},
-    "unsplash_random": {"download": download_image_unsplash_random, "description": "Unsplash random photo"},
+    "unsplash": {"download": download_image_unsplash, "description": "Unsplash random photo"},
 }
 
 
