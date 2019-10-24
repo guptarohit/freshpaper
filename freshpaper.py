@@ -189,7 +189,6 @@ def download_image_nasa(download_dir, image_extension="jpg"):
         if image_data.get('media_type') != 'image':
             log.info("No NASA image of the day available. It can be a video.\n")
             return None
-        log.info(image_data)
         image_url = image_data.get("url")
 
         image_name = image_data.get("title").split(" ")[0]
