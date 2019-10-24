@@ -49,7 +49,7 @@ To update the wallpaper simply run:
 
     $ freshpaper
 
-The default source of wallpaper is `bing`. Available sources: ``bing``, ``nasa``, ``unsplash_random``.
+The default source of wallpaper is ``bing``. Available sources: ``bing``, ``nasa``, ``unsplash_random``.
 
 To change the source of the wallpaper, run:
 
