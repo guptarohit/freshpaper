@@ -23,7 +23,7 @@ freshpaper
     :target: https://github.com/ambv/black
     :alt: Code style: black
 
-freshpaper automatically sets `Bing <https://www.bing.com/>`_ photo of the day or `NASA-APOD <https://apod.nasa.gov/apod/astropix.html/>`_ as your desktop's wallpaper. Available for Windows, macOS & Linux.
+freshpaper automatically sets `Bing <https://www.bing.com/>`_ photo of the day or `NASA-APOD <https://apod.nasa.gov/apod/astropix.html/>`_ or `Random Unsplash photo <https://source.unsplash.com>`_ as your desktop's wallpaper. Available for Windows, macOS & Linux.
 
 
 Installation
@@ -49,7 +49,7 @@ To update the wallpaper simply run:
 
     $ freshpaper
 
-The default source of wallpaper is `bing`. Available sources: ``bing``, ``nasa``.
+The default source of wallpaper is `bing`. Available sources: ``bing``, ``nasa``, ``unsplash``.
 
 To change the source of the wallpaper, run:
 
