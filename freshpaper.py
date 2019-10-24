@@ -219,7 +219,7 @@ def download_image_nasa(download_dir, image_extension="jpg"):
         log.error("Something went wrong..\nMaybe Internet is not working...")
         raise ConnectionError
 
-def download_image_unsplash(download_dir, image_extension="jpg"):
+def download_image_unsplash_random(download_dir, image_extension="jpg"):
     """
     Download & save the image
     :param download_dir: directory where to download the image
@@ -232,7 +232,7 @@ def download_image_unsplash(download_dir, image_extension="jpg"):
     try:
         image_url = url
 
-        image_name = 'unsplash'
+        image_name = 'unsplash_random'
 
         date_time = datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
         image_file_name = "{image_name}_{date_stamp}.{extention}".format(
@@ -258,7 +258,7 @@ def download_image_unsplash(download_dir, image_extension="jpg"):
 freshpaperSources = {
     "bing": {"download": download_image_bing, "description": "Bing photo of the day"},
     "nasa": {"download": download_image_nasa, "description": "NASA photo of the day"},
-    "unsplash": {"download": download_image_unsplash, "description": "Unsplash random photo"},
+    "unsplash_random": {"download": download_image_unsplash_random, "description": "Unsplash random photo"},
 }
 
 

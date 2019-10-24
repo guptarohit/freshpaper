@@ -49,7 +49,7 @@ To update the wallpaper simply run:
 
     $ freshpaper
 
-The default source of wallpaper is `bing`. Available sources: ``bing``, ``nasa``, ``unsplash``.
+The default source of wallpaper is `bing`. Available sources: ``bing``, ``nasa``, ``unsplash_random``.
 
 To change the source of the wallpaper, run:
 
@@ -65,7 +65,7 @@ Help command of cli utility:
     Usage: freshpaper [OPTIONS] COMMAND [ARGS]...
 
     Options:
-      --source [bing|nasa|unsplash]  Source for setting the wallpaper.
+      --source [bing|nasa|unsplash_random]  Source for setting the wallpaper.
       --help           Show this message and exit.
 
 Contributing
