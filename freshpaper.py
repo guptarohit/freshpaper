@@ -186,7 +186,7 @@ def download_image_nasa(download_dir, image_extension="jpg"):
 
     try:
         image_data = json.loads(urlopen(url).read().decode("utf-8"))
-        if image_data.get('media_type') != 'image':
+        if image_data.get("media_type") != "image":
             log.info("No NASA image of the day available. It can be a video.\n")
             return None
         image_url = image_data.get("url")
@@ -219,6 +219,7 @@ def download_image_nasa(download_dir, image_extension="jpg"):
         log.error("Something went wrong..\nMaybe Internet is not working...")
         raise ConnectionError
 
+
 def download_image_unsplash_random(download_dir, image_extension="jpg"):
     """
     Download & save the image
@@ -232,7 +233,7 @@ def download_image_unsplash_random(download_dir, image_extension="jpg"):
     try:
         image_url = url
 
-        image_name = 'unsplash_random'
+        image_name = "unsplash_random"
 
         date_time = datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
         image_file_name = "{image_name}_{date_stamp}.{extention}".format(
@@ -255,10 +256,14 @@ def download_image_unsplash_random(download_dir, image_extension="jpg"):
         log.error("Something went wrong..\nMaybe Internet is not working...")
         raise ConnectionError
 
-freshpaperSources = {
+
+freshpaper_sources = {
     "bing": {"download": download_image_bing, "description": "Bing photo of the day"},
     "nasa": {"download": download_image_nasa, "description": "NASA photo of the day"},
-    "unsplash_random": {"download": download_image_unsplash_random, "description": "Unsplash random photo"},
+    "unsplash_random": {
+        "download": download_image_unsplash_random,
+        "description": "Unsplash random photo",
+    },
 }
 
 
@@ -267,7 +272,7 @@ freshpaperSources = {
 @click.option(
     "--source",
     default="bing",
-    type=click.Choice(freshpaperSources.keys()),
+    type=click.Choice(freshpaper_sources.keys()),
     help="Source for setting the wallpaper.",
 )
 def main(ctx, source):
@@ -275,7 +280,7 @@ def main(ctx, source):
         dir_name = get_wallpaper_directory()  # Wallpaper directory name
 
         try:
-            download_image = freshpaperSources.get(source)["download"]
+            download_image = freshpaper_sources.get(source)["download"]
             image_path = download_image(dir_name)
             set_wallpaper(image_path)
         except ConnectionError:
