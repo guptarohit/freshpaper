@@ -75,7 +75,7 @@ def set_wallpaper(image_path):
             )
 
             check_call([command], shell=True)
-        except CalledProcessError or FileNotFoundError:
+        except (CalledProcessError, FileNotFoundError):
             log.error("Setting wallpaper failed.")
             sys.exit(1)
     elif sys.platform.startswith("linux"):
