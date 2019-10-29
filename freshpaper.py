@@ -280,7 +280,7 @@ def download_image_nat_geo(download_dir, image_extension="jpg"):
 
     if not image_url:
         log.info(
-            "No National Geographic image of the day available. It can be a video.\n")
+            "No National Geographic image of the day available.\n")
         return None
 
     image_name_regex = r"json\":{\"title\":\"(.*)\""
