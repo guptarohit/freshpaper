@@ -38,7 +38,8 @@ def set_wallpaper(image_path):
     log.info("Updating wallpaper..")
     log.info(
         "Name of wallpaper: {}".format(
-            re.sub("([a-z])([A-Z])", r"\1 \2", image_path.split("/")[-1].split("_")[0])
+            re.sub("([a-z])([A-Z])", r"\1 \2",
+                   image_path.split("/")[-1].split("_")[0])
         )
     )
 
@@ -147,7 +148,8 @@ def download_image_bing(download_dir, image_extension="jpg"):
 
         image_name = re.search(r"OHR\.(.*?)_", image_url).group(1)
 
-        image_url_hd = "http://www.bing.com/hpwp/" + image_data["images"][0]["hsh"]
+        image_url_hd = "http://www.bing.com/hpwp/" + \
+            image_data["images"][0]["hsh"]
         date_time = datetime.now().strftime("%d_%m_%Y")
         image_file_name = "{image_name}_{date_stamp}.{extention}".format(
             image_name=image_name, date_stamp=date_time, extention=image_extension
@@ -256,6 +258,7 @@ def download_image_unsplash_random(download_dir, image_extension="jpg"):
         log.error("Something went wrong..\nMaybe Internet is not working...")
         raise ConnectionError
 
+
 def download_image_nat_geo(download_dir, image_extension="jpg"):
     """
     Download & save the image
@@ -263,8 +266,6 @@ def download_image_nat_geo(download_dir, image_extension="jpg"):
     :param image_extension: directory where to download the image
     :return: downloaded image path
     """
-    from urllib.request import urlopen
-
     url = "https://www.nationalgeographic.com/photography/photo-of-the-day/"
 
     try:
@@ -274,17 +275,20 @@ def download_image_nat_geo(download_dir, image_extension="jpg"):
         raise ConnectionError
 
     html = request.read().decode("utf-8")
-    regex = r"twitter:image:src\" content=\"(.*)\""
-    matches = re.findall(regex, html)
-    
-    if not matches:
-        log.info("No National Geographic image of the day available. It can be a video.\n")
+    url_regex = r"twitter:image:src\" content=\"(.*)\""
+    image_url = re.findall(url_regex, html)[0]
+
+    if not image_url:
+        log.info(
+            "No National Geographic image of the day available. It can be a video.\n")
         return None
-    
-    image_url = matches[0]
+
+    image_name_regex = r"json\":{\"title\":\"(.*)\""
+    image_name = re.findall(image_name_regex, html)[0]
 
     try:
-        image_name = "nat_geo"
+        if not image_name:
+            image_name = "nat_geo"
 
         date_time = datetime.now().strftime("%d_%m_%Y")
         image_file_name = "{image_name}_{date_stamp}.{extention}".format(
@@ -308,6 +312,7 @@ def download_image_nat_geo(download_dir, image_extension="jpg"):
         log.error("Something went wrong..\nMaybe Internet is not working...")
         raise ConnectionError
 
+
 freshpaper_sources = {
     "bing": {"download": download_image_bing, "description": "Bing photo of the day"},
     "nasa": {"download": download_image_nasa, "description": "NASA photo of the day"},
@@ -316,7 +321,7 @@ freshpaper_sources = {
         "description": "Unsplash random photo",
     },
     "nat_geo": {
-        "download": download_image_nat_geo, 
+        "download": download_image_nat_geo,
         "description": "National Geographic photo of the day",
     },
 
