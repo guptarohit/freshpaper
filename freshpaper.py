@@ -257,12 +257,69 @@ def download_image_unsplash_random(download_dir, image_extension="jpg"):
         raise ConnectionError
 
 
+def download_image_nat_geo(download_dir, image_extension="jpg"):
+    """
+    Download & save the image
+    :param download_dir: directory where to download the image
+    :param image_extension: directory where to download the image
+    :return: downloaded image path
+    """
+    url = "https://www.nationalgeographic.com/photography/photo-of-the-day/"
+
+    try:
+        request = urlopen(url)
+    except URLError:
+        log.error("Something went wrong..\nMaybe Internet is not working...")
+        raise ConnectionError
+
+    html = request.read().decode("utf-8")
+    url_regex = r"twitter:image:src\" content=\"(.*)\""
+    image_url = re.findall(url_regex, html)[0]
+
+    if not image_url:
+        log.info("No National Geographic image of the day available.\n")
+        return None
+
+    image_name_regex = r"json\":{\"title\":\"(.*)\""
+    image_name = re.findall(image_name_regex, html)[0]
+
+    try:
+        if not image_name:
+            image_name = "nat_geo"
+
+        date_time = datetime.now().strftime("%d_%m_%Y")
+        image_file_name = "{image_name}_{date_stamp}.{extention}".format(
+            image_name=image_name, date_stamp=date_time, extention=image_extension
+        )
+
+        image_path = os.path.join(os.sep, download_dir, image_file_name)
+        log.debug("download_dir: {}".format(download_dir))
+        log.debug("image_file_name: {}".format(image_file_name))
+        log.debug("image_path: {}".format(image_path))
+
+        if os.path.isfile(image_path):
+            log.info("No new wallpaper yet..updating to latest one.\n")
+            return image_path
+
+        log.info("Downloading...")
+        urlretrieve(image_url, filename=image_path)
+        return image_path
+
+    except URLError:
+        log.error("Something went wrong..\nMaybe Internet is not working...")
+        raise ConnectionError
+
+
 freshpaper_sources = {
     "bing": {"download": download_image_bing, "description": "Bing photo of the day"},
     "nasa": {"download": download_image_nasa, "description": "NASA photo of the day"},
     "unsplash_random": {
         "download": download_image_unsplash_random,
         "description": "Unsplash random photo",
+    },
+    "nat_geo": {
+        "download": download_image_nat_geo,
+        "description": "National Geographic photo of the day",
     },
 }
 
