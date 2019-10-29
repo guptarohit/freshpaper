@@ -38,8 +38,7 @@ def set_wallpaper(image_path):
     log.info("Updating wallpaper..")
     log.info(
         "Name of wallpaper: {}".format(
-            re.sub("([a-z])([A-Z])", r"\1 \2",
-                   image_path.split("/")[-1].split("_")[0])
+            re.sub("([a-z])([A-Z])", r"\1 \2", image_path.split("/")[-1].split("_")[0])
         )
     )
 
@@ -148,8 +147,7 @@ def download_image_bing(download_dir, image_extension="jpg"):
 
         image_name = re.search(r"OHR\.(.*?)_", image_url).group(1)
 
-        image_url_hd = "http://www.bing.com/hpwp/" + \
-            image_data["images"][0]["hsh"]
+        image_url_hd = "http://www.bing.com/hpwp/" + image_data["images"][0]["hsh"]
         date_time = datetime.now().strftime("%d_%m_%Y")
         image_file_name = "{image_name}_{date_stamp}.{extention}".format(
             image_name=image_name, date_stamp=date_time, extention=image_extension
@@ -279,8 +277,7 @@ def download_image_nat_geo(download_dir, image_extension="jpg"):
     image_url = re.findall(url_regex, html)[0]
 
     if not image_url:
-        log.info(
-            "No National Geographic image of the day available.\n")
+        log.info("No National Geographic image of the day available.\n")
         return None
 
     image_name_regex = r"json\":{\"title\":\"(.*)\""
@@ -324,7 +321,6 @@ freshpaper_sources = {
         "download": download_image_nat_geo,
         "description": "National Geographic photo of the day",
     },
-
 }
 
 
