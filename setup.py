@@ -12,7 +12,7 @@ NAME = "freshpaper"
 DESCRIPTION = "Program to automatically set Bing's `Photo of the day` as your Desktop's wallpaper."
 URL = "https://github.com/guptarohit/freshpaper"
 AUTHOR = "Rohit Gupta"
-VERSION = "1.2.0"
+VERSION = "1.2.1"
 
 # Packages are required for this module
 REQUIRED = ["click", "Pillow"]
