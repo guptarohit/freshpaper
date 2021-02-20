@@ -273,14 +273,14 @@ def download_image_nat_geo(download_dir, image_extension="jpg"):
         raise ConnectionError
 
     html = request.read().decode("utf-8")
-    url_regex = r"twitter:image:src\" content=\"(.*)\""
+    url_regex = r"twitter:image:src\" content=\"(.*?)\""
     image_url = re.findall(url_regex, html)[0]
 
     if not image_url:
         log.info("No National Geographic image of the day available.\n")
         return None
 
-    image_name_regex = r"json\":{\"title\":\"(.*)\""
+    image_name_regex = r"<p class=\"Caption__Title\" aria-hidden=\"false\">(.*?)</p>"
     image_name = re.findall(image_name_regex, html)[0]
 
     try:
