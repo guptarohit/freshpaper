@@ -22,7 +22,7 @@ include = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
-pillow = "^7.0"
+pillow = ">=7,<9"
 click = "*"
 
 [tool.poetry.dev-dependencies]
