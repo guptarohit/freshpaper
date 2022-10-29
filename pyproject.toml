@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "freshpaper"
-version = "1.2.1"
+version = "1.2.2"
 description = "Program to automatically set Bing's `Photo of the day` as your Desktop's wallpaper."
 authors = ["Rohit Gupta <rohitgtech+git@gmail.com>"]
 license = "BSD-3-Clause"
