@@ -9,13 +9,7 @@ from datetime import datetime
 from subprocess import check_call, CalledProcessError
 from PIL import Image
 
-try:
-    # for python3
-    from urllib.request import urlopen, urlretrieve, HTTPError, URLError
-except ImportError:
-    # for python2
-    from urllib import urlretrieve
-    from urllib2 import urlopen, HTTPError, URLError
+from urllib.request import urlopen, urlretrieve, HTTPError, URLError
 
 if sys.platform.startswith("win32"):
     import win32api
@@ -28,9 +22,9 @@ log = logging.getLogger(__name__)
 
 
 def set_wallpaper(image_path):
+    """Given a path to an image, set it as the wallpaper"""
     if image_path is None:
         return
-    """ Given a path to an image, set it as the wallpaper """
     if not os.path.exists(image_path):
         log.error("Image does not exist.")
         sys.exit(1)
@@ -107,10 +101,9 @@ def get_saved_wallpaper(wall_dir):
 
 
 def get_wallpaper_directory():
-    """ check if `default` wallpaper download directory exists or not, create if doesn't exist """
+    """check if `default` wallpaper download directory exists or not, create if doesn't exist"""
     pictures_dir = ""
     wall_dir_name = "freshpaper"
-    os.path.join(os.sep, os.path.expanduser("~"), "a", "freshpaper")
     if sys.platform.startswith("win32"):
         pictures_dir = "My Pictures"
     elif sys.platform.startswith("darwin"):
